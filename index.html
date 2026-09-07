@@ -7,16 +7,25 @@
 <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;500;700&family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #ecf7ed;
-    --accent: #76e4d2;
-    --accent2: #b7ece0;
-    --text: #23856e;
-    --text2: #3BB692;
-    --card-normal: #ECFFFB;
-    --card-normal-border: #A2DAD1;
-    --card-vc: #fde8f0;
-    --card-vc-border: #f0b8d0;
-    --shadow: rgba(80, 160, 142, 0.12);
+    --hero: #74e9e2;
+    --bg: #74e9e2;
+    --panel: #1c7d70;
+    --panel-2: #2ba597;
+    --accent: #5fddc9;
+    --accent-strong: #1f9077;
+    --accent2: #a8e4da;
+    --text: #17624f;
+    --text2: #23856e;
+
+    /* 地声カード：ミントの色相そのまま、明度だけ上げて地色から浮かせる */
+    --card-normal: #e6faf4;
+    --card-normal-border: #8bd9c8;
+
+    /* VCカード（むらこ想定）：同系統でやや寒色（アクア寄り）に振って区別 */
+    --card-vc: #e0f2fb;
+    --card-vc-border: #9ccbe6;
+
+    --shadow: rgba(20, 110, 95, 0.22);
     --radius: 16px;
   }
 
@@ -27,25 +36,90 @@
     background: var(--bg);
     color: var(--text);
     min-height: 100vh;
-    background-image:
-      radial-gradient(circle at 20% 20%, rgba(180,150,230,0.18) 0%, transparent 50%),
-      radial-gradient(circle at 80% 80%, rgba(200,170,240,0.15) 0%, transparent 50%);
+    overflow-x: hidden;
+  }
+
+  /* トップ画：画像の左端の色(#74E9E2)で全幅を敷き、画像は中央寄せ。
+     広い画面では左右の余白が画像の地色の延長になって境目が消える。 */
+  .hero {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    line-height: 0;
+    background: var(--hero);
+  }
+
+  .hero img {
+    display: block;
+    width: 100%;
+    max-width: 1280px;
+    margin: 0 auto;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
   }
 
   header {
-    background: linear-gradient(135deg, #9bd3c9 0%, rgb(139, 232, 209) 50%, #73dfcb 100%);
-    padding: 32px 24px 24px;
+    background: var(--hero);
+    padding: 20px 24px 26px;
     text-align: center;
-    box-shadow: 0 4px 24px rgba(5, 83, 76, 0.2);
   }
 
-  header h1 {
+  /* 各種リンク（YouTube / X / マシュマロ） */
+  .social-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+    max-width: 900px;
+    margin: 0 auto 16px;
+  }
+
+  .social {
+    flex: 1 1 240px;
+    max-width: 320px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    border-radius: 14px;
+    text-align: left;
+    text-decoration: none;
+    color: var(--text);
+    background: rgba(255, 255, 255, 0.5);
+    transition: transform 0.15s, background 0.15s;
+  }
+
+  .social:hover {
+    transform: translateY(-2px);
+    background: rgba(255, 255, 255, 0.85);
+  }
+
+  .social img {
+    width: 48px;
+    height: 48px;
+    display: block;
+    flex-shrink: 0;
+    object-fit: contain;
+  }
+
+  .social-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+  }
+
+  .social-title {
     font-family: 'Zen Maru Gothic', sans-serif;
-    font-size: clamp(1.4rem, 4vw, 2.2rem);
-    color: #23856e;
-    letter-spacing: 0.08em;
-    text-shadow: 0 2px 8px rgba(60,30,100,0.3);
-    margin-bottom: 20px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    line-height: 1.3;
+  }
+
+  .social-desc {
+    font-size: 0.75rem;
+    line-height: 1.35;
+    color: var(--text2);
   }
 
   .search-wrap {
@@ -82,6 +156,11 @@
     pointer-events: none;
   }
 
+  /* カード表示エリア：トップ画左右の塗りつぶし色でベタ塗り（グラデ無し） */
+  .content {
+    background: var(--hero);
+  }
+
   .tabs-container {
     display: flex;
     gap: 8px;
@@ -89,6 +168,11 @@
     max-width: 1200px;
     margin: 0 auto;
     flex-wrap: wrap;
+  }
+
+  @media (max-width: 480px) {
+    .tabs-container { padding-left: 16px; padding-right: 16px; gap: 6px; }
+    .tab { padding: 8px 13px; font-size: 0.8rem; }
   }
 
   .tab {
@@ -108,10 +192,10 @@
   .tab:hover { background: var(--accent2); color: var(--text); }
 
   .tab.active {
-    background: var(--accent);
-    border-color: var(--accent);
+    background: var(--accent-strong);
+    border-color: var(--accent-strong);
     color: #fff;
-    box-shadow: 0 4px 12px rgba(59,182,146,0.3);
+    box-shadow: 0 4px 12px rgba(31,144,119,0.3);
   }
 
   .legend {
@@ -157,13 +241,21 @@
     gap: 12px;
   }
 
+  /* hidden 属性を効かせる（display 指定に負けないよう明示） */
+  .cards-grid[hidden],
+  .info-panel[hidden] { display: none; }
+
+  /* 各種リンクカード（.social）と地色・文字色を揃える。
+     地声/ボイチェンの区別はバッジのみで行う。 */
   .card {
     border-radius: var(--radius);
     overflow: hidden;
-    transition: transform 0.2s, box-shadow 0.2s;
+    transition: transform 0.15s, background 0.15s, box-shadow 0.2s;
     cursor: pointer;
     text-decoration: none;
-    color: inherit;
+    color: var(--text);
+    background: rgba(255, 255, 255, 0.5);
+    box-shadow: 0 2px 12px var(--shadow);
     display: flex;
     flex-direction: row;
     align-items: stretch;
@@ -172,19 +264,8 @@
 
   .card:hover {
     transform: translateY(-3px);
+    background: rgba(255, 255, 255, 0.85);
     box-shadow: 0 10px 28px var(--shadow);
-  }
-
-  .card.normal {
-    background: var(--card-normal);
-    border: 1.5px solid var(--card-normal-border);
-    box-shadow: 0 2px 12px rgba(59,182,146,0.1);
-  }
-
-  .card.vc {
-    background: var(--card-vc);
-    border: 1.5px solid var(--card-vc-border);
-    box-shadow: 0 2px 12px rgba(220,100,140,0.1);
   }
 
   .card-thumb-wrap {
@@ -200,7 +281,7 @@
     object-fit: cover;
     display: block;
     border-radius: 6px;
-    background: #d8cef0;
+    background: #cdece5;
   }
 
   .card-body {
@@ -237,59 +318,213 @@
     font-variant-numeric: tabular-nums;
   }
 
+  .card-artist {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--text);
+  }
+
+  .card-remark {
+    font-size: 0.72rem;
+    color: var(--text2);
+    background: rgba(255, 255, 255, 0.6);
+    padding: 1px 7px;
+    border-radius: 20px;
+  }
+
+  .badge-flag {
+    font-size: 0.68rem;
+    padding: 2px 7px;
+    border-radius: 20px;
+    background: #ffe1b0;
+    color: #8a5a00;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    cursor: help;
+  }
+
   .badge-vc {
     font-size: 0.68rem;
     padding: 2px 7px;
     border-radius: 20px;
-    background: #f5b8d0;
-    color: #8c3060;
+    background: var(--accent2);
+    color: var(--text);
     font-weight: 600;
     letter-spacing: 0.03em;
   }
 
-  .vote-banner {
-    max-width: 1200px;
-    margin: 16px auto 0;
-    padding: 0 24px;
-  }
-
-  .vote-banner a {
+  /* ===== information タブ ===== */
+  .info-panel {
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .info-block {
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: var(--radius);
+    padding: 16px 18px;
+    overflow: hidden;
+  }
+
+  .info-table,
+  .danmaku-text,
+  .info-list { max-width: 100%; }
+
+  /* SDキャラ付きブロック：
+     狭い画面では 見出し→画像→本文 の縦並び、
+     広い画面(700px以上)では 画像を左に固定し、右に見出し＋本文をまとめる */
+  .info-block.has-avatar {
+    display: flex;
+    flex-direction: column;
     gap: 12px;
-    background: linear-gradient(135deg, #236b55 0%, #3BB692 60%, #28765e 100%);
-    color: #fff;
-    text-decoration: none;
-    border-radius: 50px;
-    padding: 12px 24px;
+  }
+
+  .info-block.has-avatar .info-content {
+    display: contents;
+  }
+
+  .info-block.has-avatar .info-heading { order: 1; }
+  .info-block.has-avatar .info-avatar-wrap { order: 2; }
+  .info-block.has-avatar .info-table,
+  .info-block.has-avatar .info-list,
+  .info-block.has-avatar .info-note,
+  .info-block.has-avatar .danmaku-row { order: 3; }
+
+  .info-avatar-wrap {
+    display: flex;
+    justify-content: center;
+  }
+
+  .info-avatar {
+    display: block;
+    width: 112px;
+    height: auto;
+  }
+
+  @media (min-width: 700px) {
+    .info-block.has-avatar {
+      flex-direction: row;
+      align-items: flex-start;
+      gap: 20px;
+    }
+    .info-block.has-avatar .info-content {
+      display: block;
+      flex: 1 1 auto;
+      min-width: 0;
+    }
+    .info-block.has-avatar .info-avatar-wrap {
+      order: 0;
+      flex: 0 0 auto;
+      justify-content: flex-start;
+    }
+    .info-avatar { width: 136px; }
+  }
+
+  .info-heading {
     font-family: 'Zen Maru Gothic', sans-serif;
-    font-size: clamp(0.78rem, 2vw, 0.95rem);
-    font-weight: 700;
+    font-size: 1.05rem;
+    color: var(--text);
     letter-spacing: 0.03em;
-    box-shadow: 0 4px 18px rgba(59,182,146,0.3);
-    transition: transform 0.2s, box-shadow 0.2s;
-    line-height: 1.5;
+    margin-bottom: 12px;
   }
 
-  .vote-banner a:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 24px rgba(66, 201, 160, 0.4);
+  .info-table {
+    width: 100%;
+    border-collapse: collapse;
   }
 
-  .vote-banner .vote-icon {
-    font-size: 1.4rem;
-    flex-shrink: 0;
+  .info-table th,
+  .info-table td {
+    text-align: left;
+    vertical-align: top;
+    padding: 7px 10px;
+    font-size: 0.9rem;
+    line-height: 1.55;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.65);
   }
+
+  .info-table th {
+    white-space: nowrap;
+    width: 1%;
+    color: var(--text2);
+    font-weight: 700;
+  }
+
+  .info-table tr:last-child th,
+  .info-table tr:last-child td {
+    border-bottom: none;
+  }
+
+  .info-table a {
+    color: var(--accent-strong);
+    word-break: break-all;
+  }
+
+  .info-note {
+    font-size: 0.82rem;
+    color: var(--text2);
+    line-height: 1.6;
+    margin-bottom: 10px;
+  }
+
+  .danmaku-row {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+    padding: 9px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.65);
+  }
+
+  .danmaku-row:last-child { border-bottom: none; }
+
+  .danmaku-text {
+    align-self: stretch;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  .danmaku-copy {
+    border: none;
+    border-radius: 8px;
+    padding: 4px 14px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    font-family: inherit;
+    white-space: nowrap;
+    color: #fff;
+    background: var(--accent-strong);
+    cursor: pointer;
+    transition: filter 0.15s;
+  }
+
+  .danmaku-copy:hover { filter: brightness(1.08); }
+
+  .info-list {
+    margin: 0;
+    padding-left: 1.2em;
+  }
+
+  .info-list li {
+    font-size: 0.9rem;
+    line-height: 1.65;
+    margin-bottom: 6px;
+  }
+
+  .info-list li:last-child { margin-bottom: 0; }
 
   footer {
-    background: linear-gradient(135deg, #9bd3c9 0%, rgb(139, 232, 209) 50%, #73dfcb 100%);
+    background: linear-gradient(135deg, #8ce3db 0%, var(--hero) 50%, #63dacf 100%);
     text-align: center;
     padding: 24px 16px;
     margin-top: 20px;
   }
 
   footer a {
-    color: rgba(255,255,255,0.92);
+    color: #12564a;
     text-decoration: none;
     font-family: 'Zen Maru Gothic', sans-serif;
     font-size: 0.9rem;
@@ -297,14 +532,14 @@
     transition: color 0.2s;
   }
 
-  footer a:hover { color: #fff; text-decoration: underline; }
+  footer a:hover { color: #0b3a33; text-decoration: underline; }
 
   footer .footer-name {
     font-size: 1rem;
     font-weight: 700;
     display: block;
     margin-bottom: 4px;
-    color: #fff;
+    color: #0f4a40;
   }
 
   .no-results {
@@ -328,12 +563,12 @@
 
   #loadingOverlay.hidden { opacity: 0; pointer-events: none; }
 
-  .spinner {
-    width: 40px; height: 40px;
-    border: 4px solid var(--accent2);
-    border-top-color: var(--accent);
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
+  .loading-char {
+    width: 150px;
+    max-width: 45vw;
+    height: auto;
+    display: block;
+    animation: loadingWobble 1.1s ease-in-out infinite;
   }
 
   .loading-text {
@@ -345,64 +580,156 @@
     line-height: 1.6;
   }
 
-  @keyframes spin   { to { transform: rotate(360deg); } }
   @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+  @keyframes loadingWobble {
+    0%, 100% { transform: rotate(-6deg); }
+    50%      { transform: rotate(6deg); }
+  }
 </style>
 </head>
 <body>
 
-<!-- ローディングオーバーレイ -->
+<!--
+  PNG簡易暗号化(.png-arnie-ango)対応ユーティリティ。
+  ローカルのPNGは元ファイル名に "-arnie-ango" を足した暗号化版に置き換わって
+  いることがある（convert_ango.py 参照）。暗号化版があればfetchして復号し
+  Blob URL化して表示、無ければ素のPNGパスをそのまま使う。
+  アルゴリズム: バイト列反転 → 固定鍵で1バイトずつXOR（convert_ango.py と同一・
+  同じ鍵にすること）。
+-->
+<script>
+  var ANGO_KEY    = 'arnie-ango';
+  var ANGO_SUFFIX = '-arnie-ango';
+  var imgSrcCache = {};
+
+  function angoXor(bytes) {
+    var key = new TextEncoder().encode(ANGO_KEY);
+    var out = new Uint8Array(bytes.length);
+    for (var i = 0; i < bytes.length; i++) out[i] = bytes[i] ^ key[i % key.length];
+    return out;
+  }
+
+  function angoDecrypt(buf) {
+    var unxored = angoXor(new Uint8Array(buf));
+    return unxored.reverse();
+  }
+
+  /**
+   * ローカルPNG画像の実際のsrc（表示に使えるURL）を解決する。
+   * <path>-arnie-ango（暗号化版）を取得できればそれを復号してBlob URL化し、
+   * 取得できなければ素の<path>をそのまま返す。結果はpathごとにキャッシュする。
+   */
+  async function loadImageSrc(path) {
+    if (imgSrcCache[path]) return imgSrcCache[path];
+    try {
+      const res = await fetch(path + ANGO_SUFFIX);
+      if (res.ok) {
+        const decrypted = angoDecrypt(await res.arrayBuffer());
+        const url = URL.createObjectURL(new Blob([decrypted], { type: 'image/png' }));
+        imgSrcCache[path] = url;
+        return url;
+      }
+    } catch (_) { /* 暗号化ファイルが無い/取得失敗 → 素のPNGにフォールバック */ }
+    imgSrcCache[path] = path;
+    return path;
+  }
+
+  /** data-img="論理パス" を持つ<img>をまとめて解決する（静的に書かれたローカル画像用） */
+  async function hydrateLocalImages(root) {
+    const els = (root || document).querySelectorAll('img[data-img]');
+    await Promise.all(Array.from(els).map(async img => {
+      img.src = await loadImageSrc(img.dataset.img);
+    }));
+  }
+</script>
+
+<!-- ローディングオーバーレイ（むらいちゃんSDを1〜4からランダム表示） -->
 <div id="loadingOverlay">
-  <div class="spinner"></div>
+  <img id="loadingChar" class="loading-char" alt="">
   <div class="loading-text" id="loadingText">データを読み込み中...</div>
 </div>
+<script>
+  (function () {
+    var n = 1 + Math.floor(Math.random() * 4);
+    var el = document.getElementById('loadingChar');
+    if (el) loadImageSrc('materials/sd/muraichi' + n + '.png').then(url => { el.src = url; });
+  })();
+</script>
+
+<!-- トップ画（表示時に2枚からランダム） -->
+<div class="hero">
+  <img id="heroImg" alt="労働村の村人1さん 歌ってみた検索">
+</div>
+<script>
+  (function () {
+    var pics = ['誕生日おにい1.png', '誕生日おにい2.png'];
+    var pick = pics[Math.floor(Math.random() * pics.length)];
+    var el = document.getElementById('heroImg');
+    loadImageSrc('materials/top/' + encodeURIComponent(pick)).then(url => { el.src = url; });
+  })();
+</script>
 
 <header>
-  <h4>🌙💚🎧冷静でクールでクレバーなお歌枠🌙💚🎧</h4>
-  <h1>労働村の村人1さん 歌ってみた検索</h1>
-  <font color=#23856e>
-    ちょっとPONだけど歌枠はカッコいいむらいっちゃんこと、労働村の村人1さん<br>
-    そんなむらいっちゃんのおうたをみんなで聞こう！</font>
-  <br><br>
+  <nav class="social-links">
+    <a class="social" href="https://www.youtube.com/@村人-1" target="_blank" rel="noopener noreferrer">
+      <img data-img="materials/icon/youtube.png" alt="">
+      <span class="social-text">
+        <span class="social-title">YouTubeチャンネル</span>
+        <span class="social-desc">公式YouTubeチャンネルはこちら！</span>
+      </span>
+    </a>
+    <a class="social" href="https://x.com/roudou1" target="_blank" rel="noopener noreferrer">
+      <img data-img="materials/icon/x.png" alt="">
+      <span class="social-text">
+        <span class="social-title">X（旧Twitter）</span>
+        <span class="social-desc">公式Xはこちら！</span>
+      </span>
+    </a>
+    <a class="social" href="https://marshmallow-qa.com/q1hj50fj1omqt0y" target="_blank" rel="noopener noreferrer">
+      <img data-img="materials/icon/marshmallow.png" alt="">
+      <span class="social-text">
+        <span class="social-title">マシュマロ</span>
+        <span class="social-desc">マシュマロ・お便りはこちらから！</span>
+      </span>
+    </a>
+  </nav>
+
   <div class="search-wrap">
-    <input type="search" id="searchInput" placeholder="曲名・動画タイトルで検索..." autocomplete="off">
+    <input type="search" id="searchInput" placeholder="曲名・アーティスト・動画タイトルで検索..." autocomplete="off">
     <span class="search-icon">🔍</span>
   </div>
 </header>
 
-<div class="vote-banner">
-  <a href="https://x.com/roudou1/status/2050522337163063602" target="_blank" rel="noopener noreferrer">
-    <span class="vote-icon">💚</span>
-    <span>24時間耐久配信！楽しかったね。むらいっちゃんお疲れさまでした！！</span>
-  </a>
-</div>
+<div class="content">
+  <div class="tabs-container" id="tabsContainer">
+    <button class="tab active" data-tab="mv">■ Music Video</button>
+    <button class="tab" data-tab="live">■ 歌枠</button>
+    <button class="tab" data-tab="pending">■ 準備中</button>
+    <button class="tab" data-tab="info">■ information</button>
+  </div>
 
-<div class="tabs-container" id="tabsContainer">
-  <button class="tab active" data-tab="mv">■ Music Video</button>
-  <button class="tab" data-tab="live">■ 歌枠</button>
-  <button class="tab" data-tab="pending">■ 歌枠（タイムスタンプ準備中）</button>
-</div>
+  <!--
+  <div class="legend">
+    <span class="legend-item"><span class="legend-dot normal"></span>地声</span>
+    <span class="legend-item"><span class="legend-dot vc"></span>ボイチェン</span>
+  </div>
+  -->
 
-<!--
-<div class="legend">
-  <span class="legend-item"><span class="legend-dot normal"></span>地声</span>
-  <span class="legend-item"><span class="legend-dot vc"></span>ボイチェン</span>
-</div>
--->
-
-<div class="main">
-  <div id="sectionLabel" class="section-label"></div>
-  <div class="cards-grid" id="cardsGrid"></div>
-  <div id="noResults" class="no-results" style="display:none;">該当するコンテンツが見つかりませんでした</div>
+  <div class="main">
+    <div id="sectionLabel" class="section-label"></div>
+    <div class="cards-grid" id="cardsGrid"></div>
+    <div id="infoPanel" class="info-panel" hidden></div>
+    <div id="noResults" class="no-results" style="display:none;">該当するコンテンツが見つかりませんでした</div>
+  </div>
 </div>
 
 <footer>
   <a href="https://www.youtube.com/@%E5%8A%B4%E5%83%8D%E6%9D%91%E3%81%AE%E6%9D%91%E4%BA%BA1" target="_blank" rel="noopener noreferrer">
     <span class="footer-name">このページのコンテンツは全て、労働村の村人1さんのリンクになっています</span>
-    <span>https://www.youtube.com/@労働村の村人1</span>
+    <span>https://www.youtube.com/@村人-1</span>
   </a>
   <br>
-  <span>created by arnie</span>
+  <span>Created by Arnie Yield, Illustrated by Hoshina Hoshizora</span>
 </footer>
 
 <script>
@@ -428,11 +755,55 @@ function tsToSeconds(ts) {
 }
 
 /** タイトルから末尾の装飾（絵文字・コメント等）を除去 */
+
 function cleanTitle(raw) {
   return raw
-    .replace(/[🍆🌸✨💫⭐🎵🎶🎤🎸🎹🥁🎷🎺🪗🎻🎼🎙️🔊🍑]+.*$/u, '')
+//    .replace(/[🍆🌸✨💫⭐🎵🎶🎤🎸🎹🥁🎷🎺🪗🎻🎼🎙️🔊🍑]+.*$/u, '')
     .replace(/＜[^\s]*/g, '')
     .trim();
+}
+
+/**
+ * 「曲名 / アーティスト名 # 備考 [TODO|ERROR]」形式の行を分解する。
+ * ①最初のスペースでタイムスタンプと切り離した残り文字列を受け取る想定。
+ * ②アーティスト名との区切りは最後の半角スラッシュ（曲名側にスラッシュを含められる）。
+ *   アーティスト名自体に "/" が入る場合（例: DISH//）は
+ *   `曲名 / "DISH//"` のように "..." で囲んで区切りの曖昧さを回避する。
+ */
+function parseSongLine(raw) {
+  let s = raw.trim();
+  let flag = null;
+
+  const flagMatch = s.match(/\s*\[(TODO|ERROR)\]\s*$/);
+  if (flagMatch) {
+    flag = flagMatch[1];
+    s = s.slice(0, flagMatch.index).trim();
+  }
+
+  let remark = null;
+  const hashIdx = s.indexOf(' # ');
+  if (hashIdx >= 0) {
+    remark = s.slice(hashIdx + 3).trim();
+    s = s.slice(0, hashIdx).trim();
+  }
+
+  let artist = null;
+  // アーティスト名自体に "/" を含む場合は `"DISH//"` のように " / \"...\"" で
+  // 引用符囲みされている想定。それ以外は通常どおり最後の "/" で分割する。
+  const quotedMatch = s.match(/\s\/\s"([^"]*)"\s*$/);
+  if (quotedMatch) {
+    artist = quotedMatch[1].trim();
+    s = s.slice(0, quotedMatch.index).trim();
+  } else {
+    const slashIdx = s.lastIndexOf('/');
+    if (slashIdx >= 0) {
+      artist = s.slice(slashIdx + 1).trim();
+      s = s.slice(0, slashIdx).trim();
+    }
+  }
+
+  const title = cleanTitle(s);
+  return { contentTitle: title || s, artist, remark, flag };
 }
 
 // ============================================================
@@ -441,15 +812,26 @@ function cleanTitle(raw) {
 
 /**
  * databaseテキストを解析してアイテム配列を返す
- * @returns {{ mvItems: Item[], liveItems: Item[], pendingItems: Item[] }}
+ * @returns {{ mvItems, liveItems, pendingItems, infoBlocks }}
  *
- * Item = { videoId, url, contentTitle, isVoicechanger, timestamp }
+ * Item      = { videoId, url, contentTitle, artist, remark, flag, isVoicechanger, timestamp }
+ * infoBlock = { type: 'table'|'danmaku'|'list', heading, images:[], rows:[[k,v]], items:[] }
+ *
+ * ■information セクションの記法:
+ *   >>table 見出し     … 続く「キー | 値」行を2列表に。値がURLならリンク化
+ *   >>danmaku 見出し   … 続く各行を1件ずつコピー可能な行に。先頭 // は注釈行
+ *   >>list 見出し      … 続く各行を箇条書きに（先頭の「・」は除去）
+ *   @image パス        … ブロック内のどこでも可。SDキャラ等を画像として添える
+ *                        （広い画面では左側、狭い画面では見出しと本文の間に表示）。
+ *                        同じブロックに複数書くと、表示のたびにその中から
+ *                        ランダムで1枚選ばれる
  */
 function parseDatabase(text) {
   const lines       = text.split('\n').map(l => l.trim());
   const mvItems      = [];
   const liveItems    = [];
   const pendingItems = [];
+  const infoBlocks   = [];
 
   // タイムスタンプ行にマッチ: 先頭が「数字:数字」で始まる
   const TS_RE = /^(\d+:\d+(?::\d+)?)\s+(.+)$/;
@@ -457,20 +839,50 @@ function parseDatabase(text) {
   let section    = null;
   let currentUrl = null;
   let currentVc  = false;
+  let infoBlock  = null;
 
   for (const line of lines) {
     if (!line) continue;
 
     // ---- セクションヘッダ ----
-    // 「タイムスタンプ準備中」を先に判定（「歌ってみた枠」の部分一致を避けるため）
-    if (line.includes('タイムスタンプ準備中')) {
-      section = 'pending'; currentUrl = null; continue;
+    // 「準備中」を先に判定（「歌ってみた枠」の部分一致を避けるため）
+    if (line.startsWith('■') && line.includes('準備中')) {
+      section = 'pending'; currentUrl = null; infoBlock = null; continue;
     }
     if (line === '■Music Video') {
-      section = 'mv'; currentUrl = null; continue;
+      section = 'mv'; currentUrl = null; infoBlock = null; continue;
     }
     if (line === '■歌ってみた枠') {
-      section = 'live'; currentUrl = null; continue;
+      section = 'live'; currentUrl = null; infoBlock = null; continue;
+    }
+    if (line === '■information' || line === '■インフォメーション') {
+      section = 'info'; currentUrl = null; infoBlock = null; continue;
+    }
+
+    // ---- information セクション ----
+    if (section === 'info') {
+      const bm = line.match(/^>>(table|danmaku|list)\b\s*(.*)$/);
+      if (bm) {
+        infoBlock = { type: bm[1], heading: bm[2].trim(), images: [], rows: [], items: [] };
+        infoBlocks.push(infoBlock);
+        continue;
+      }
+      if (!infoBlock) continue;
+      if (line.startsWith('@image')) {
+        infoBlock.images.push(line.slice(6).trim());
+        continue;
+      }
+      if (infoBlock.type === 'table') {
+        const bar = line.indexOf('|');
+        if (bar >= 0) infoBlock.rows.push([line.slice(0, bar).trim(), line.slice(bar + 1).trim()]);
+        else          infoBlock.rows.push(['', line]);
+      } else if (infoBlock.type === 'danmaku') {
+        if (line.startsWith('//')) infoBlock.items.push({ note: true,  text: line.slice(2).trim() });
+        else                       infoBlock.items.push({ note: false, text: line });
+      } else { // list
+        infoBlock.items.push(line.replace(/^[・･·]\s*/, ''));
+      }
+      continue;
     }
 
     // ---- URL行 ----
@@ -501,15 +913,18 @@ function parseDatabase(text) {
     if (section === 'live' && currentUrl) {
       const m = TS_RE.exec(line);
       if (m) {
-        const ts    = m[1];
-        const title = cleanTitle(m[2]);
-        const secs  = tsToSeconds(ts);
-        const vid   = getVideoId(currentUrl);
+        const ts     = m[1];
+        const parsed = parseSongLine(m[2]);
+        const secs   = tsToSeconds(ts);
+        const vid    = getVideoId(currentUrl);
         if (vid) {
           liveItems.push({
             videoId:        vid,
             url:            `https://www.youtube.com/watch?v=${vid}&t=${secs}`,
-            contentTitle:   title || m[2],
+            contentTitle:   parsed.contentTitle,
+            artist:         parsed.artist,
+            remark:         parsed.remark,
+            flag:           parsed.flag,
             isVoicechanger: currentVc,
             timestamp:      ts,
           });
@@ -518,28 +933,56 @@ function parseDatabase(text) {
     }
   }
 
-  return { mvItems, liveItems, pendingItems };
+  return { mvItems, liveItems, pendingItems, infoBlocks };
 }
 
 // ============================================================
-// YOUTUBE タイトル取得（noembed）
+// YOUTUBE タイトル取得
+//   YouTube公式oEmbedを主、noembedを従に。成功したものだけキャッシュ。
+//   （失敗はキャッシュしないので、あとの再試行パスで拾い直せる）
 // ============================================================
 
 const videoInfoCache = {};
 
-async function fetchVideoInfo(videoId) {
-  if (videoInfoCache[videoId]) return videoInfoCache[videoId];
+/** タイムアウト付きでJSONを取得。失敗時は null */
+async function fetchJsonWithTimeout(url, timeoutMs = 8000) {
+  const ctrl = new AbortController();
+  const timer = setTimeout(() => ctrl.abort(), timeoutMs);
   try {
-    const res  = await fetch(`https://noembed.com/embed?url=https://www.youtube.com/watch?v=${videoId}`);
-    const data = await res.json();
-    const info = { title: data.title || '' };
-    videoInfoCache[videoId] = info;
-    return info;
+    const res = await fetch(url, { signal: ctrl.signal });
+    if (!res.ok) return null;
+    return await res.json();
   } catch {
-    const info = { title: '' };
-    videoInfoCache[videoId] = info;
-    return info;
+    return null;
+  } finally {
+    clearTimeout(timer);
   }
+}
+
+async function fetchVideoInfo(videoId) {
+  const cached = videoInfoCache[videoId];
+  if (cached && cached.title) return cached;
+
+  const watchUrl = `https://www.youtube.com/watch?v=${videoId}`;
+  let title = '';
+
+  // 1) YouTube公式 oEmbed（CORSヘッダーを返すので直接叩ける。最も確実）
+  const a = await fetchJsonWithTimeout(
+    `https://www.youtube.com/oembed?format=json&url=${encodeURIComponent(watchUrl)}`
+  );
+  if (a && a.title) title = a.title;
+
+  // 2) フォールバック: noembed
+  if (!title) {
+    const b = await fetchJsonWithTimeout(
+      `https://noembed.com/embed?url=${encodeURIComponent(watchUrl)}`
+    );
+    if (b && b.title) title = b.title;
+  }
+
+  const info = { title };
+  if (title) videoInfoCache[videoId] = info; // 成功時のみ保存（失敗は再試行パスで拾い直す）
+  return info;
 }
 
 // ============================================================
@@ -549,6 +992,7 @@ async function fetchVideoInfo(videoId) {
 let mvItems      = [];
 let liveItems    = [];
 let pendingItems = [];
+let infoBlocks   = [];
 let activeTab    = 'mv';
 let searchQuery  = '';
 
@@ -594,11 +1038,35 @@ function makeCard(item) {
     meta.appendChild(tsEl);
   }
 
+  if (item.artist) {
+    const artistEl    = document.createElement('span');
+    artistEl.className = 'card-artist';
+    artistEl.textContent = item.artist;
+    meta.appendChild(artistEl);
+  }
+
+  if (item.remark) {
+    const remarkEl    = document.createElement('span');
+    remarkEl.className = 'card-remark';
+    remarkEl.textContent = item.remark;
+    meta.appendChild(remarkEl);
+  }
+
   if (isVC) {
     const badge    = document.createElement('span');
     badge.className = 'badge-vc';
     badge.textContent = 'ボイチェン';
     meta.appendChild(badge);
+  }
+
+  if (item.flag) {
+    const flagEl    = document.createElement('span');
+    flagEl.className = 'badge-flag';
+    flagEl.textContent = '要確認';
+    flagEl.title = item.flag === 'ERROR'
+      ? 'アーティスト名にスラッシュが含まれるため要修正'
+      : 'アーティスト未確定・複数候補あり';
+    meta.appendChild(flagEl);
   }
 
   body.appendChild(titleEl);
@@ -608,14 +1076,150 @@ function makeCard(item) {
   return card;
 }
 
+/** URLらしき文字列ならリンク要素を、そうでなければテキストを td に入れる */
+function appendInfoValue(td, value) {
+  if (/^https?:\/\//i.test(value)) {
+    const a = document.createElement('a');
+    a.href = value;
+    a.target = '_blank';
+    a.rel = 'noopener noreferrer';
+    a.textContent = value;
+    td.appendChild(a);
+  } else {
+    td.textContent = value;
+  }
+}
+
+function renderInfo(container) {
+  container.innerHTML = '';
+  infoBlocks.forEach(block => {
+    const sec = document.createElement('section');
+    sec.className = 'info-block';
+
+    // 見出し・本文を一旦配列にためる（画像ありブロックはあとでラップし直す）
+    const bodyEls = [];
+
+    if (block.heading) {
+      const h = document.createElement('h2');
+      h.className = 'info-heading';
+      h.textContent = block.heading;
+      bodyEls.push(h);
+    }
+
+    if (block.type === 'table') {
+      const tbl = document.createElement('table');
+      tbl.className = 'info-table';
+      block.rows.forEach(([k, v]) => {
+        const tr = document.createElement('tr');
+        if (k) {
+          const th = document.createElement('th');
+          th.textContent = k;
+          tr.appendChild(th);
+          const td = document.createElement('td');
+          appendInfoValue(td, v);
+          tr.appendChild(td);
+        } else {
+          const td = document.createElement('td');
+          td.colSpan = 2;
+          appendInfoValue(td, v);
+          tr.appendChild(td);
+        }
+        tbl.appendChild(tr);
+      });
+      bodyEls.push(tbl);
+
+    } else if (block.type === 'danmaku') {
+      block.items.forEach(it => {
+        if (it.note) {
+          const p = document.createElement('p');
+          p.className = 'info-note';
+          p.textContent = it.text;
+          bodyEls.push(p);
+          return;
+        }
+        const row = document.createElement('div');
+        row.className = 'danmaku-row';
+        const span = document.createElement('span');
+        span.className = 'danmaku-text';
+        span.textContent = it.text;
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = 'danmaku-copy';
+        btn.textContent = 'コピー';
+        btn.addEventListener('click', async () => {
+          try {
+            await navigator.clipboard.writeText(it.text);
+            btn.textContent = 'コピー済み';
+            setTimeout(() => { btn.textContent = 'コピー'; }, 1500);
+          } catch (_) { /* クリップボード不可環境では無視 */ }
+        });
+        row.appendChild(span);
+        row.appendChild(btn);
+        bodyEls.push(row);
+      });
+
+    } else { // list
+      const ul = document.createElement('ul');
+      ul.className = 'info-list';
+      block.items.forEach(t => {
+        const li = document.createElement('li');
+        li.textContent = t;
+        ul.appendChild(li);
+      });
+      bodyEls.push(ul);
+    }
+
+    if (block.images && block.images.length) {
+      // 画像あり: 広い画面では左に画像＋右に本文、狭い画面では見出しと本文の間に画像
+      // 複数指定されていれば表示のたびにランダムで1枚選ぶ
+      sec.classList.add('has-avatar');
+
+      const pick = block.images[Math.floor(Math.random() * block.images.length)];
+      const avatarWrap = document.createElement('div');
+      avatarWrap.className = 'info-avatar-wrap';
+      const img = document.createElement('img');
+      img.className = 'info-avatar';
+      img.alt = '';
+      img.loading = 'lazy';
+      loadImageSrc(pick).then(url => { img.src = url; });
+      avatarWrap.appendChild(img);
+
+      const content = document.createElement('div');
+      content.className = 'info-content';
+      bodyEls.forEach(el => content.appendChild(el));
+
+      sec.appendChild(avatarWrap);
+      sec.appendChild(content);
+    } else {
+      bodyEls.forEach(el => sec.appendChild(el));
+    }
+
+    container.appendChild(sec);
+  });
+}
+
 function render() {
   const grid      = document.getElementById('cardsGrid');
+  const infoPanel = document.getElementById('infoPanel');
   const noResults = document.getElementById('noResults');
   const label     = document.getElementById('sectionLabel');
   const tabs      = document.getElementById('tabsContainer');
   grid.innerHTML  = '';
 
   const q = searchQuery.trim().toLowerCase();
+
+  // ---- information タブ（検索していないとき） ----
+  if (!q && activeTab === 'info') {
+    tabs.style.opacity = '1';
+    grid.hidden = true;
+    infoPanel.hidden = false;
+    noResults.style.display = 'none';
+    label.textContent = '■ information';
+    renderInfo(infoPanel);
+    return;
+  }
+  grid.hidden = false;
+  infoPanel.hidden = true;
 
   let items;
   if (q) {
@@ -624,7 +1228,8 @@ function render() {
       const info = videoInfoCache[item.videoId] || {};
       const ct   = (item.contentTitle || '').toLowerCase();
       const vt   = (info.title || '').toLowerCase();
-      return ct.includes(q) || vt.includes(q);
+      const at   = (item.artist || '').toLowerCase();
+      return ct.includes(q) || vt.includes(q) || at.includes(q);
     });
     label.textContent = `「${searchQuery}」の検索結果 ${items.length}件`;
   } else {
@@ -635,7 +1240,8 @@ function render() {
     const names = {
       mv:      '■ Music Video',
       live:    '■ 歌枠',
-      pending: '■ 歌枠（タイムスタンプ準備中）',
+      pending: '■ 準備中',
+      info:    '■ information',
     };
     label.textContent = `${names[activeTab]} — ${items.length}件`;
   }
@@ -672,6 +1278,12 @@ document.getElementById('searchInput').addEventListener('input', e => {
   render();
 });
 
+const LOADING_MIN_MS = 2000; // ロード演出を最低このくらいは見せる（実際の読み込みが速くても待つ）
+const loadingStartedAt = Date.now();
+
+// 各種リンクアイコン等、静的に data-img="..." で書かれたローカル画像を解決
+hydrateLocalImages();
+
 (async () => {
   // Step 1: databaseファイルをfetchして解析
   try {
@@ -682,6 +1294,17 @@ document.getElementById('searchInput').addEventListener('input', e => {
     mvItems      = parsed.mvItems;
     liveItems    = parsed.liveItems;
     pendingItems = parsed.pendingItems;
+    infoBlocks   = parsed.infoBlocks;
+
+    // 該当コンテンツが無ければタブごと非表示
+    if (pendingItems.length === 0) {
+      const t = document.querySelector('.tab[data-tab="pending"]');
+      if (t) t.remove();
+    }
+    if (infoBlocks.length === 0) {
+      const t = document.querySelector('.tab[data-tab="info"]');
+      if (t) t.remove();
+    }
   } catch (err) {
     console.error('database 読み込みエラー:', err);
     document.getElementById('loadingText').textContent =
@@ -689,7 +1312,10 @@ document.getElementById('searchInput').addEventListener('input', e => {
     return;
   }
 
-  // Step 2: ローディング非表示・初期描画（カード枠のみ先に表示）
+  // Step 2: 最低表示時間を確保してからローディング非表示・初期描画（カード枠のみ先に表示）
+  const remaining = LOADING_MIN_MS - (Date.now() - loadingStartedAt);
+  if (remaining > 0) await new Promise(r => setTimeout(r, remaining));
+
   const overlay = document.getElementById('loadingOverlay');
   overlay.classList.add('hidden');
   setTimeout(() => overlay.remove(), 500);
@@ -703,12 +1329,23 @@ document.getElementById('searchInput').addEventListener('input', e => {
   ])];
 
   const BATCH_SIZE = 5;
-  for (let i = 0; i < allIds.length; i += BATCH_SIZE) {
-    await Promise.allSettled(
-      allIds.slice(i, i + BATCH_SIZE).map(id => fetchVideoInfo(id))
-    );
-    render();
-    await new Promise(r => setTimeout(r, 150));
+  const gotTitle = id => !!(videoInfoCache[id] && videoInfoCache[id].title);
+
+  async function runPass(ids) {
+    for (let i = 0; i < ids.length; i += BATCH_SIZE) {
+      await Promise.allSettled(ids.slice(i, i + BATCH_SIZE).map(id => fetchVideoInfo(id)));
+      render();
+      await new Promise(r => setTimeout(r, 150));
+    }
+  }
+
+  // 初回 + 取得できなかったIDの再試行（最大3回）
+  await runPass(allIds);
+  for (let attempt = 0; attempt < 3; attempt++) {
+    const missing = allIds.filter(id => !gotTitle(id));
+    if (missing.length === 0) break;
+    await new Promise(r => setTimeout(r, 1000));
+    await runPass(missing);
   }
 })();
 </script>
